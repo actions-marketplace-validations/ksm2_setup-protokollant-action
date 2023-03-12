@@ -1,0 +1,17 @@
+name: 'Setup Protokollant'
+description: 'Sets up the Protokollant release tool'
+branding:
+  icon: bookmark
+  color: yellow
+inputs:
+  version:
+    description: 'The version of Protokollant to use, latest by default'
+    required: false
+outputs:
+  version:
+    description: 'The version of Protokollant being used'
+  path:
+    description: 'The absolute path to the Protokollant binary'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'

@@ -1,0 +1,21 @@
+{
+  "name": "@ksm2/setup-protokollant-action",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "ncc build src/main.ts"
+  },
+  "author": "Konstantin Möllers <ksm.moellers@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/http-client": "^2.1.0",
+    "@actions/tool-cache": "^2.0.1",
+    "ansi-styles": "^6.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^18.15.0",
+    "@vercel/ncc": "^0.36.1",
+    "typescript": "^4.9.5"
+  }
+}

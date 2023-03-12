@@ -1,0 +1,24 @@
+on: [push]
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        runs-on:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+
+    runs-on: ${{ matrix.runs-on }}
+    steps:
+      - uses: ksm2/setup-protokollant-action@main
+        id: protokollant
+
+      - name: Get the output version
+        run: echo "Loaded tool version ${{ steps.protokollant.outputs.version }} at path ${{ steps.protokollant.outputs.path }}"
+
+      - name: Get protokollant version
+        run: protokollant --version
+
+      - name: Print protokollant help
+        run: protokollant --help
