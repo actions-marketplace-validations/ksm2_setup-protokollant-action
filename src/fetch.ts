@@ -5,13 +5,23 @@ const API_URL = 'https://api.github.com/repos/ksm2/protokollant/releases/latest'
 const httpClient = new http.HttpClient('Setup Protokollant');
 
 export async function fetchLatestVersion(): Promise<string> {
-  const response = await httpClient.get(API_URL);
-  const body = await response.readBody();
-  const release = JSON.parse(body);
-  const tagName = release.tag_name;
-  const version = parseTag(tagName);
+  try {
+    const response = await httpClient.get(API_URL);
+    const body = await response.readBody();
+    const release = JSON.parse(body);
+    const version = parseTag(extractVersion(release));
 
-  return version;
+    return version;
+  } catch (error) {
+    throw new Error(`Failed to fetch latest version: ${(error as Error).message}`);
+  }
+}
+
+function extractVersion(release: any): string {
+  if (typeof release.tag_name !== 'string') {
+    throw new Error(`Invalid release: ${JSON.stringify(release)}`);
+  }
+  return release.tag_name;
 }
 
 function parseTag(tag: string): string {

@@ -6598,15 +6598,25 @@ const API_URL = 'https://api.github.com/repos/ksm2/protokollant/releases/latest'
 const httpClient = new http.HttpClient('Setup Protokollant');
 function fetchLatestVersion() {
     return __awaiter(this, void 0, void 0, function* () {
-        const response = yield httpClient.get(API_URL);
-        const body = yield response.readBody();
-        const release = JSON.parse(body);
-        const tagName = release.tag_name;
-        const version = parseTag(tagName);
-        return version;
+        try {
+            const response = yield httpClient.get(API_URL);
+            const body = yield response.readBody();
+            const release = JSON.parse(body);
+            const version = parseTag(extractVersion(release));
+            return version;
+        }
+        catch (error) {
+            throw new Error(`Failed to fetch latest version: ${error.message}`);
+        }
     });
 }
 exports.fetchLatestVersion = fetchLatestVersion;
+function extractVersion(release) {
+    if (typeof release.tag_name !== 'string') {
+        throw new Error(`Invalid release: ${JSON.stringify(release)}`);
+    }
+    return release.tag_name;
+}
 function parseTag(tag) {
     const match = tag.match(/^v(\d+\.\d+.\d+)$/);
     if (match) {
